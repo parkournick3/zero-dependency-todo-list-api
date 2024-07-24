@@ -42,6 +42,31 @@ export const routes = [
     },
   },
   {
+    method: "POST",
+    path: buildRoutePath("/tasks/import_csv"),
+    handler: (req, res) => {
+      req.body.csv.forEach((row) => {
+        const [title, description] = row;
+
+        if (!title || !description) {
+          // TODO: Create a response to this
+          return;
+        }
+
+        const task = {
+          id: randomUUID(),
+          title,
+          description,
+          completed_at: null,
+        };
+
+        database.insert("tasks", task);
+      });
+
+      return res.writeHead(201).end();
+    },
+  },
+  {
     method: "DELETE",
     path: buildRoutePath("/tasks/:id"),
     handler: (req, res) => {
