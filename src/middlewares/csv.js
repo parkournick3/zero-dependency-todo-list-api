@@ -15,6 +15,7 @@ export const csv = async (req, res) => {
           if (row.includes("Content-Type: ")) return false;
           if (!row) return false;
           if (row === "\r") return false;
+          if (row.includes("--------------------------")) return false;
 
           return true;
         })
